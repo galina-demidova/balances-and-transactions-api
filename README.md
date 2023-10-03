@@ -26,11 +26,10 @@ This endpoint returns a list of balances for a specific date range.
 
 Query-parameters `from` and `to` are mandatory, `sort` is optional.
 
-Daily balances are calculated according to the next rules:
-- transactions that influence on the balance:
-    - have status equals `BOOKED` and amount with `minus`
-    - have status equals `PROCESSED` and amount with `plus`
-    - have status equals `CANCELLED` and amount with `minus`
+Daily balances are influenced by the following transactions:
+- status is `BOOKED` and amount is `negative` - money are considered withdrawn as soon as they are booked
+- status is `PROCESSED` and amount is `positive` - money are considered deposited when a transaction is processed
+- status is `CANCELLED` and amount is `negative` - money are returned when withdrawal booking is cancelled
 
 For operations with dates was used [date-fns](https://date-fns.org/) library.
 
