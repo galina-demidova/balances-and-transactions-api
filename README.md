@@ -1,3 +1,70 @@
+# Assignment Solution
+
+### `GET /historical-balances?from=yyyy-mm-dd&to=yyyy-mm-dd&sort=desc`
+
+This endpoint returns a list of balances for a specific date range.
+
+```json
+[ 
+    { 
+        "date": "05/01/2022", 
+        "amount": 12345, 
+        "currency": "EUR" 
+    }, 
+    { 
+        "date": "04/01/2022", 
+        "amount": 12345, 
+        "currency": "EUR" 
+    }, 
+    { 
+        "date": "03/01/2022", 
+        "amount": 12345, 
+        "currency": "EUR" 
+    }
+] 
+```
+
+Query-parameters `from` and `to` are mandatory, `sort` is optional.
+
+Daily balances are calculated according to the next rules:
+- transactions that influence on the balance:
+    - have status equals `BOOKED` and amount with `minus`
+    - have status equals `PROCESSED` and amount with `plus`
+    - have status equals `CANCELLED` and amount with `minus`
+
+For operations with dates was used [date-fns](https://date-fns.org/) library.
+
+## How to run and test the project?
+
+### Build the project
+
+```sh
+npm run build
+```
+
+### Running the server
+
+```sh
+# After cloning the repository, install the dependencies
+npm install
+
+# Start the server
+npm start
+```
+
+### API Documentation
+
+Swagger UI for API can be explored on http://localhost:3333/api-docs/
+
+### Running the tests
+
+```sh
+npm test
+```
+
+---
+
+
 # Balance and Transactions API
 
 ## Intro
@@ -89,7 +156,7 @@ This is going to return a list of all past transactions done by that customer:
 
 You should implement a REST endpoint where we can fetch the daily balance for a 
 specific date range, such as `GET /historical-balances?from=2022-01-03&to=2022-01-05&sort=desc` 
-The request should respond with a list of of balances for these days in the following 
+The request should respond with a list of balances for these days in the following 
 format:
 
 ```json
@@ -115,7 +182,7 @@ format:
 Each item in the response list should include the `date`, the `amount` available 
 in the customer bank account for that specific date, and the `currency`.  
 
-- Your solution must include proper error handling and input validaton to
+- Your solution must include proper error handling and input validation to
 ensure data integrity.
 
 - Implement logging for key events and errors.
